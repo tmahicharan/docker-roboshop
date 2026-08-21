@@ -1,11 +1,15 @@
 services:
   catalogue:
-    image: catalogue:v1
+    build: 
+      context: ./catalogue
+    image: mahicharan/catalogue:v1
     container_name: catalogue
     depends_on:
       - mongodb
   mongodb:
-    image: mongodb:v1
+    build: 
+      context: ./mongodb
+    image: mahicharan/mongodb:v1
     container_name: mongodb
     volumes:
       - mongodb:/data/db
@@ -15,7 +19,9 @@ services:
     volumes:
       - redis:/data
   mysql:
-    image: mysql:v1
+    build: 
+      context: ./mysql
+    image: mahicharan/mysql:v1
     container_name: mysql
     volumes:
       - mysql:/var/lib/mysql
@@ -28,32 +34,42 @@ services:
     volumes:
       - rabbitmq:/var/lib/rabbitmq
   user:
-    image: user:v1
+    build: 
+      context: ./user
+    image: mahicharan/user:v1
     container_name: user
     depends_on:
       - mongodb
       - redis
   cart:
-    image: cart:v1
+    build: 
+      context: ./cart
+    image: mahicharan/cart:v1
     container_name: cart
     depends_on:
       - redis
       - catalogue
   shipping:
-    image: shipping:v1
+    build: 
+      context: ./shipping
+    image: mahicharan/shipping:v1
     container_name: shipping
     depends_on:
       - mysql
       - cart
   payment:
-    image: payment:v1
+    build: 
+      context: ./payment
+    image: mahicharan/payment:v1
     container_name: payment
     depends_on:
       - rabbitmq
       - cart
       - user
   frontend:
-    image: frontend:v1
+    build: 
+      context: ./frontend
+    image: mahicharan/frontend:v1
     container_name: frontend
     ports:
       - "80:80"
